@@ -1,0 +1,8 @@
+{"key" : "day",
+"value" : "monday",
+"entropy": 0,
+"children" : [ 
+{"key" : "month", "value" : "aaa", "entropy":"None", "children" : [  ]},
+{"key" : "month", "value" : "bbb", "entropy":"None", "children" : [  ]},
+{"key" : "month", "value" : "ccc", "entropy":"None", "children" : [  ]} 
+]}
