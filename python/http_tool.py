@@ -4,7 +4,7 @@ import socket
 import os
 import sys
 import http.client
-from http import HTTPStatus
+#from http import HTTPStatus # not support on python3.4
 import argparse
 import ssl
 
@@ -47,7 +47,9 @@ class Request(object):
         set text to send
         """
         self._text = t
-        self.req = self._text.replace(os.linesep, '')
+        #self.req = self._text.replace(os.linesep, '') #this may have some but in windows.
+        self.req = self._text.replace('\r', '')
+        self.req = self._text.replace('\n', '')
         self.req = self.req.replace('\\r', '\r')
         self.req = self.req.replace('\\n', '\n')
 
@@ -103,7 +105,7 @@ def main():
     if resp is None:
         print('no response')
         return
-    print('>>> Status Code = [{0}] info = [{1}]'.format(resp.code, HTTPStatus(resp.code).description))
+    print('>>> Status Code = [{0}]'.format(resp.code))
     for k, v in resp.getheaders():
         print('{0}:{1}'.format(k, v))
 
@@ -111,8 +113,13 @@ def main():
         length = resp.getheader('content-length')
         if length is not None:
             print('>>> Body length is {0}'.format(length))
-            body = resp.read(int(length)).decode()
-            print(body)
+            body = resp.read(int(length))
+            try:
+                print(body.decode('utf-8', 'ignore'))
+            except Exception as e:
+                print(e)
+                print('Decode error, print raw data:')
+                print(body)
         else:
             print("Can't get content-length from header")
 
