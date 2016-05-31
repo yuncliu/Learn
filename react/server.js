@@ -21,35 +21,32 @@ function handleDirectory(p, response) {
     });
 }
 
-function onRequest(request, response) {
-    let pathname = url.parse(request.url).pathname;
-    //console.log(path)
-    let p = path.join(__dirname, pathname);
-    console.log(p);
-    fs.stat(p, (err, stats)=>{
-        console.log("process [%s]", p);
-        if (err) {
-            console.log("%s not exist", p);
-            response.writeHead(404, {"Content-Type": "text/html"});
-            response.end();
-        } else {
-            if(stats.isFile()) {
-                console.log("%s is a file", p);
-            }
-        }
-    });
+const handleAPI = (request, response) => {
+    let parsedurl = url.parse(request.url);
+    response.writeHead(200, {"Content-Type": "text/html"});
+    //response.write("{ 'name': 'xxx' }")
+    let v = "value";
+    let data = {key:v}
+    console.log(data)
+    response.write(JSON.stringify(data))
+    response.end();
 }
 
 function onRequest(request, response) {
     let pathname = url.parse(request.url).pathname;
+    console.log(url.parse(request.url))
     let p = path.join(__dirname, pathname);
-    console.log(p);
     fs.stat(p, (err, stats)=>{
         console.log("process [%s]", p);
         if (err) {
-            console.log("%s not exist", p);
-            response.writeHead(404, {"Content-Type": "text/html"});
-            response.end();
+            if (pathname == "/api") {
+                handleAPI(request, response)
+            } else {
+                console.log("%s not exist", p);
+                response.writeHead(404, {"Content-Type": "text/html"});
+                response.write("404")
+                response.end();
+            }
         } else {
             if(stats.isFile()) {
                 console.log("%s is a file", p);
