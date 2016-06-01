@@ -1,40 +1,38 @@
 class Add extends React.Component {
-    handleClick(ev) {
-        console.log(this.props.children)
+    constructor(props) {
+        super(props);
+        this.handleClick = (ev) => {
+            let a = parseInt(this.refs.InputA.state.value);
+            let b = parseInt(this.refs.InputB.state.value);
+            console.log(a + b)
+            console.log(ev.target)
+        }
     }
+
     render() {
         return (
-                <div>
-                <Input />
-                <Input />
-                <p><input type="button" value="=" onClick={ev=>this.handleClick(ev)} /></p>
-                </div>
+            <div>
+            <Input ref="InputA" />
+            <Input ref="InputB" />
+            <p><input type="button" value="=" onClick={this.handleClick} /></p>
+            </div>
         );
     }
 }
 
 class Input extends React.Component {
-
     constructor(props) {
         super(props);
-        this.state = {value : "Hellow"};
-        //this.handleChange = this.handleChange.bind(this);
+        this.state={value : 0}
         this.handleChange = (ev) => {
             this.setState({value: ev.target.value});
-        };
+        }
     }
 
     render() {
-        return (<p><input type="text" value={this.state.value} onChange={this.handleChange} /></p>);
+        return (<input type="text" value={this.state.value} onChange={this.handleChange} />);
     }
-/*
-    handleChange(ev) {
-        this.setState({value: ev.target.value});
-    }
-    */
 }
 
-ReactDOM.render(
-    <Add />,
-    document.getElementById('react_add')
-);
+
+ReactDOM.render( <Add />, document.getElementById('react_add'));
