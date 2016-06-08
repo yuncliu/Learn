@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, make_response
 
 app = Flask(__name__)
+
+mime_type={'.html': 'text/html',
+    '.css': 'text/css',
+    '.js': 'application/x-javascript',
+    '.py': 'text/plain',
+    '.json': 'application/json'}
 
 @app.route('/api/<api>')
 def api(api):
@@ -21,8 +27,14 @@ def root(path):
         return render_template('index.html', data=data)
 
     if os.path.isfile(path):
+        ext_name = os.path.splitext(path)[1]# == '.css':
         with open(path) as f:
-            return f.read()
+            resp = make_response(f.read())
+            try:
+                resp.headers['content-type'] = mime_type[ext_name]
+            except KeyError:
+                resp.headers['content-type'] = 'text/plain'
+            return resp
 
     abort(404)
 
