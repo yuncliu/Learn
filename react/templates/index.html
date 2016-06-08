@@ -3,8 +3,8 @@
 <title>Hellow</title>
 <body>
     <ul>
-    {% for i in data %}
-    <li><a href="/{{i}}">{{i}}</a></li>
+    {% for k, v in data.items() %}
+    <li><a href="/{{v}}">{{k}}</a></li>
     {% endfor %}
     </ul>
 </body>

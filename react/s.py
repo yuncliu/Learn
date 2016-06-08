@@ -21,9 +21,10 @@ def root(path):
     print('[{0}]'.format(path))
     print(os.getcwd())
     if os.path.isdir(path):
-        data = [os.path.join(path, entry.name) for entry in os.scandir(path)]
-        for i in data:
-            print(i)
+        data = dict(zip([entry.name for entry in os.scandir(path)],
+            [os.path.join(path, entry.name) for entry in os.scandir(path)]))
+        for k, v in data.items():
+            print('[{0}][{1}]'.format(k, v))
         return render_template('index.html', data=data)
 
     if os.path.isfile(path):
