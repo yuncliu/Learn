@@ -1,8 +1,3 @@
-const s = {
-    color:'green',
-    width:'100px'
-}
-
 class Hello extends React.Component {
     constructor() {
         super()
@@ -12,9 +7,12 @@ class Hello extends React.Component {
     }
     render() {
         return (<div>
-                <p><input style={s} type="text" value={this.state.value}
+                <p><input type="text" className="form-control"
+                    value={this.state.value}
                     onChange={this.handleChange}></input></p>
-                <p><input type="button" className="btn-lg" value="hellow" onClick={this.handleClick}></input></p>
+                <p><input type="button" className="btn btn-primary"
+                    value="hellow"
+                    onClick={this.handleClick}></input></p>
                 </div>
                 );
     }

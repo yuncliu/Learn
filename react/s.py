@@ -1,18 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import os
-from flask import Flask, render_template, abort, make_response
+import json
+from flask import Flask, render_template, abort, make_response, request
+from mimetypes import MimeTypes
 
 app = Flask(__name__)
 
-mime_type={'.html': 'text/html',
-    '.css': 'text/css',
-    '.js': 'application/x-javascript',
-    '.py': 'text/plain',
-    '.json': 'application/json'}
+m = MimeTypes()
+comment = ['aaa', 'bbb', 'ccc']
 
-@app.route('/api/<api>')
+@app.route('/api/<api>', methods=['GET', 'POST'])
 def api(api):
+    if api == '1':
+        resp = make_response(json.dumps({1:1}))
+        resp.headers['content-type'] = 'application/json'
+        return resp
+    if api == 'print':
+        resp = make_response()
+        resp.headers['content-type'] = 'application/json'
+        resp.set_data(json.dumps({'result' : 'done'}))
+        return resp
+
+    if api == 'list':
+        resp = make_response()
+        resp.headers['content-type'] = 'application/json'
+        resp.set_data(json.dumps(comment))
+        return resp
+
+    if api == 'submit_comment':
+        resp = make_response()
+        resp.headers['content-type'] = 'application/json'
+        print('get a submit')
+        print(request.get_json(silent = True))
+        tmp = request.get_json(silent = True)
+        try:
+            comment.append(tmp['key'])
+        except Exception as e:
+            pass
+
+        resp.set_data(json.dumps(comment))
+        return resp
+
     return "Hellow"
 
 @app.route('/', defaults={'path': '.'})
@@ -28,13 +57,9 @@ def root(path):
         return render_template('index.html', data=data)
 
     if os.path.isfile(path):
-        ext_name = os.path.splitext(path)[1]# == '.css':
         with open(path) as f:
             resp = make_response(f.read())
-            try:
-                resp.headers['content-type'] = mime_type[ext_name]
-            except KeyError:
-                resp.headers['content-type'] = 'text/plain'
+            resp.headers['content-type'] = m.guess_type(path)[0]
             return resp
 
     abort(404)
