@@ -39,22 +39,26 @@ def get_label(num):
 if __name__ == "__main__":
 
     # Create the model
-    x = tf.placeholder(tf.float32, [None, 784])
+    x = tf.placeholder(tf.float32, [None, 784], name = "Input")
     W = tf.Variable(tf.zeros([784, 10]))
     b = tf.Variable(tf.zeros([10]))
     y = tf.nn.softmax(tf.matmul(x, W) + b)
 
     # Define loss and optimizer
-    y_ = tf.placeholder(tf.float32, [None, 10])
+    y_ = tf.placeholder(tf.float32, [None, 10], name = "Result")
     cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
     train_step = tf.train.GradientDescentOptimizer(0.2).minimize(cross_entropy)
 
     sess = tf.InteractiveSession()
     tf.initialize_all_variables().run()
+    tf.scalar_summary("cross_entropy", cross_entropy)
+    writer = tf.train.SummaryWriter("mnist", sess.graph)
+    merged = tf.merge_all_summaries()
     i = 0
-    ifb = False
     for image, label in zip(get_image(100), get_label(100)):
-        sess.run(train_step, feed_dict={x: image, y_: label})
+        i = i + 1
+        _, summary = sess.run([train_step, merged], feed_dict={x: image, y_: label})
+        writer.add_summary(summary, i)
 
     #print(sess.run(W))
     for image, label in zip(get_image(1), get_label(1)):

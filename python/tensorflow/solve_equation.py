@@ -11,9 +11,9 @@ so x = ?
 """
 
 if __name__ == '__main__':
-    A = tf.constant( [[1., 2.], [3., 4.]])
-    y = tf.constant([[10.], [22.]])
-    x = tf.Variable(tf.zeros([2, 1])) # x is unkown, so set it a Variable
+    A = tf.constant( [[1., 2.], [3., 4.]], name='A')
+    y = tf.constant([[10.], [22.]], name='y')
+    x = tf.Variable(tf.zeros([2, 1]), name='x') # x is unkown, so set it a Variable
     yy = tf.matmul(A, x)
     """ y is the target value
         yy is current value
@@ -25,8 +25,16 @@ if __name__ == '__main__':
 
     init = tf.initialize_all_variables()
     sess = tf.Session()
+    writer = tf.train.SummaryWriter('solve_equation', sess.graph)
+
+    tf.scalar_summary([['deviation_x1'], ['deviation_x2']], deviation)
+
+    merged = tf.merge_all_summaries()
+
     sess.run(init)
     """iterate 10000 times """
     for i in range(10000):
         sess.run(train_step)
+        summary = sess.run(merged)
+        writer.add_summary(summary, i)
     print(sess.run(x))
