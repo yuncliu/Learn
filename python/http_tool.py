@@ -83,7 +83,7 @@ class Request(object):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--addr', default='localhost', help="""set address default is 
+    parser.add_argument('--addr', default='localhost', help="""set address default is
             --addr=localhost:<port> 80 for http, 443 for https""")
     parser.add_argument('--https', action='store_true', default = False, help="if use https, only TLSv1.2")
     parser.add_argument('--sni', help="set Server Name Indication")
