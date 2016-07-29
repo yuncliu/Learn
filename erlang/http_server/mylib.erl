@@ -28,10 +28,10 @@ read_file(CurrentDirectory, Path) ->
     io:format("~s is a file~n", [Path]),
     case file:open(CurrentDirectory ++ Path, [read]) of
         {ok, Device} ->
-            get_all_lines(Device);
+            {"200", get_all_lines(Device)};
         {error, _} ->
             io:format("open failed~n"),
-            []
+            {"404", "404"}
     end.
 
 get_all_lines(Device) ->
@@ -47,9 +47,9 @@ read_dir(CurrentDirectory, Path)->
             string:join(["<li><a href="++Path++"/"++XX++">"++XX++"</a></li>"|| XX<-Filenames], "\r\n");
          {error, Reason}->
             io:format("error ~s~n", [Reason]),
-            ""
+            {"404", "404"}
     end,
-    "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>".
+    {"200", "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>"}.
 
 read_path(Path) ->
     {ok, CurrentDirectory} = file:get_cwd(),
@@ -63,8 +63,8 @@ read_path(Path) ->
 
 get_html(Request)->
     {_, Path} = dict:find("path", Request),
-    Text = read_path(Path),
+    {Code, Text} = read_path(Path),
     io:format("read [~s]~n", [Text]),
     Len = string:len(Text),
     io:format("Path is ~s~n", [Path]),
-    "HTTP/1.1 200 OK\r\nContent-Length: "++integer_to_list(Len)++ "\r\n\r\n" ++ Text.
+    "HTTP/1.1 "++ Code ++" OK\r\nContent-Length: "++integer_to_list(Len)++ "\r\n\r\n" ++ Text.
