@@ -24,9 +24,9 @@ request(Data)->
     Headers3 = dict:append("protocol", Protocol, Headers2),
     get_header_kv(Tail, Headers3).
 
-read_file(FileName) ->
-    io:format("~s is a file~n", [FileName]),
-    case file:open(FileName, [read]) of
+read_file(CurrentDirectory, Path) ->
+    io:format("~s is a file~n", [Path]),
+    case file:open(CurrentDirectory ++ Path, [read]) of
         {ok, Device} ->
             get_all_lines(Device);
         {error, _} ->
@@ -41,17 +41,24 @@ get_all_lines(Device) ->
             Line ++ get_all_lines(Device)
     end.
 
-read_dir(DirName)->
-    "Hellow" ++ DirName.
+read_dir(CurrentDirectory, Path)->
+    List = case file:list_dir(CurrentDirectory ++ Path) of
+         {ok, Filenames}->
+            string:join(["<li><a href="++Path++"/"++XX++">"++XX++"</a></li>"|| XX<-Filenames], "\r\n");
+         {error, Reason}->
+            io:format("error ~s~n", [Reason]),
+            ""
+    end,
+    "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>".
 
 read_path(Path) ->
     {ok, CurrentDirectory} = file:get_cwd(),
     AbsolutePath = CurrentDirectory ++ Path,
     case filelib:is_dir(AbsolutePath) of
         true ->
-            read_dir(AbsolutePath);
+            read_dir(CurrentDirectory, Path);
         false ->
-            read_file(AbsolutePath)
+            read_file(CurrentDirectory, Path)
     end.
 
 get_html(Request)->
