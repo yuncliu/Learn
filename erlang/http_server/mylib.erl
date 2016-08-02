@@ -41,10 +41,13 @@ get_all_lines(Device) ->
             Line ++ get_all_lines(Device)
     end.
 
+
 read_dir(CurrentDirectory, Path)->
     List = case file:list_dir(CurrentDirectory ++ Path) of
          {ok, Filenames}->
-            string:join(["<li><a href="++Path++"/"++XX++">"++XX++"</a></li>"|| XX<-Filenames], "\r\n");
+            HtmlPath = string:strip(Path, left, $/),
+            io:format("Html Path is ~s~n", [HtmlPath]),
+            string:join(["<li><a href="++HtmlPath++"/"++XX++">"++XX++"</a></li>"|| XX<-Filenames], "\r\n");
          {error, Reason}->
             io:format("error ~s~n", [Reason]),
             {"404", "404"}
@@ -64,7 +67,6 @@ read_path(Path) ->
 get_html(Request)->
     {_, Path} = dict:find("path", Request),
     {Code, Text} = read_path(Path),
-    io:format("read [~s]~n", [Text]),
     Len = string:len(Text),
     io:format("Path is ~s~n", [Path]),
     "HTTP/1.1 "++ Code ++" OK\r\nContent-Length: "++integer_to_list(Len)++ "\r\n\r\n" ++ Text.
