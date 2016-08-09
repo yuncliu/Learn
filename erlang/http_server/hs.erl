@@ -5,6 +5,7 @@ start(Port, Path)->
     server(Port, Path).
 
 server(Port, Path) ->
+    ets:new(cache, [set, public, named_table]),
     io:format("port ~p ~n",[Port]),
     case gen_tcp:listen(Port, [binary, {packet, raw}, {active, true}, {reuseaddr, true}]) of
         {ok, ListenPort} ->
@@ -77,13 +78,11 @@ get_all_lines(Device) ->
 
 
 read_dir(Root, Path)->
-    [PathOutOfList] = Path,
-    io:format("~s is a file~n", [PathOutOfList]),
-    HtmlPath = case PathOutOfList of
+    HtmlPath = case Path of
          "/" ->
            "";
          _ ->
-           PathOutOfList
+           Path
     end,
     List = case file:list_dir(Root ++ Path) of
          {ok, Filenames}->
@@ -95,6 +94,16 @@ read_dir(Root, Path)->
     end,
     {"200", "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>"}.
 
+read_cache(Path, Root) ->
+    case ets:lookup(cache, Path) of
+         []->
+            {Code, Content} = read_path(Path, Root),
+            ets:insert(cache, {Path, Content}),
+            {Code, Content};
+         [{_, Content}]->
+            {"200", Content}
+    end.
+
 read_path(Path, Root) ->
     AbsolutePath = Root ++ Path,
     case filelib:is_dir(AbsolutePath) of
@@ -105,8 +114,7 @@ read_path(Path, Root) ->
     end.
 
 get_html(Request, Root)->
-    {_, Path} = dict:find("path", Request),
-    {Code, Text} = read_path(Path, Root),
+    {_, [Path]} = dict:find("path", Request),
+    {Code, Text} = read_cache(Path, Root),
     Len = string:len(Text),
-    io:format("Path is ~s~n", [Path]),
     "HTTP/1.1 "++ Code ++" OK\r\nContent-Length: "++integer_to_list(Len)++ "\r\n\r\n" ++ Text.
