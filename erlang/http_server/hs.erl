@@ -61,12 +61,24 @@ request(Data)->
 
 read_file(CurrentDirectory, Path) ->
     io:format("~s is a file~n", [Path]),
+    ContentType = case lists:last(string:tokens(Path, ".")) of
+               "html"->
+                    "text/html";
+               "css"->
+                    "text/css";
+               "js"->
+                    "application/javascript";
+               "json"->
+                    "application/json";
+               _->
+                    "application/octet-stream"
+    end,
     case file:open(CurrentDirectory ++ Path, [read]) of
         {ok, Device} ->
-            {"200", get_all_lines(Device)};
+            {"200", ContentType, get_all_lines(Device)};
         {error, _} ->
             io:format("open failed~n"),
-            {"404", "404"}
+            {"404", "text/html", "404"}
     end.
 
 get_all_lines(Device) ->
@@ -90,18 +102,18 @@ read_dir(Root, Path)->
             string:join(["<li><a href="++HtmlPath ++"/"++XX++">"++XX++"</a></li>"|| XX<-Filenames], "\r\n");
          {error, Reason}->
             io:format("error ~s~n", [Reason]),
-            {"404", "404"}
+            {"404", "text/html", "404"}
     end,
-    {"200", "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>"}.
+    {"200", "text/html", "<html><head></head><body>"++"<ul>"++List++"</ul>"++"</body></html>"}.
 
 read_cache(Path, Root) ->
     case ets:lookup(cache, Path) of
          []->
-            {Code, Content} = read_path(Path, Root),
-            ets:insert(cache, {Path, Content}),
-            {Code, Content};
-         [{_, Content}]->
-            {"200", Content}
+            {Code, ContentType, Content} = read_path(Path, Root),
+            ets:insert(cache, {Path, Code, ContentType, Content}),
+            {Code, ContentType, Content};
+         [{_, Code, ContentType, Content}]->
+            {Code, ContentType, Content}
     end.
 
 read_path(Path, Root) ->
@@ -115,6 +127,7 @@ read_path(Path, Root) ->
 
 get_html(Request, Root)->
     {_, [Path]} = dict:find("path", Request),
-    {Code, Text} = read_cache(Path, Root),
+    {Code, ContentType, Text} = read_cache(Path, Root),
     Len = string:len(Text),
-    "HTTP/1.1 "++ Code ++" OK\r\nContent-Length: "++integer_to_list(Len)++ "\r\n\r\n" ++ Text.
+    "HTTP/1.1 "++ Code ++" OK\r\nContent-Length: "++integer_to_list(Len) ++
+    "\r\n"++"Content-Type: " ++ ContentType++"\r\n\r\n" ++ Text.
