@@ -117,8 +117,7 @@ read_cache(Path, Root) ->
     end.
 
 read_path(Path, Root) ->
-    AbsolutePath = Root ++ Path,
-    case filelib:is_dir(AbsolutePath) of
+    case filelib:is_dir(Root ++ Path) of
         true ->
             read_dir(Root, Path);
         false ->
