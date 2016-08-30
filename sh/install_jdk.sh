@@ -27,7 +27,7 @@ if [ -f "$download_dir/$jdk" ]; then
 else
     echo "$download_dir/$jdk"
     echo "jdk not exist"
-    #wget --no-cookies --no-check-certificate --header "$cookie" $jdk_url -O $download_dir/$jdk
+    wget --no-cookies --no-check-certificate --header "$cookie" $jdk_url -O $download_dir/$jdk
 fi
 
 jdk_home=`find $install_dir -maxdepth 1 -type d -name "jdk*"`
