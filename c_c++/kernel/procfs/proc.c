@@ -29,7 +29,7 @@ static struct proc_dir_entry* proc_entry;
 
 int __init my_init_module() {
     printk("init module\n");
-    proc_entry = proc_create(FILE_NAME, S_IWUSR, NULL, &fops);
+    proc_entry = proc_create(FILE_NAME, S_IROTH, NULL, &fops);// could read by others
     //proc_entry = create_proc_entry("hellow", 0644, NULL);
     memset(_buf, 0x00, sizeof(_buf));
     return 0;
