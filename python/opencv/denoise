@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import sys
+import numpy as np
+import cv2
+
+def denoise(img):
+    return cv2.fastNlMeansDenoisingColored(img)
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('please enter image')
+    else:
+        [filename, extname] = sys.argv[1].split('.')
+        img = cv2.imread(sys.argv[1])
+        dst = denoise(img);
+        cv2.imwrite('{0}_denoise.{1}'.format(filename, extname), dst)
