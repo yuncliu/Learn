@@ -100,3 +100,6 @@ rel/example_project
 
 # haskell
 *.hi
+
+# vim
+*.swp
