@@ -5,8 +5,8 @@ import argparse
 import json
 
 """
-ansible -i dynamic_inventory all --list-host
-ansible -i dynamic_inventory test --list-host
+ansible -i dynamic_inventory.py all --list-host
+ansible -i dynamic_inventory.py test --list-host
 """
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
