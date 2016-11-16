@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     if arg.host:
         try:
-            print(json.dumps(json_obj['meta']['hostvars'][arg.host]))
+            print(json.dumps(json_obj['_meta']['hostvars'][arg.host]))
         except:
             print(json.dumps({}))
 
