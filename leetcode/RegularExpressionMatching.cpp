@@ -27,31 +27,40 @@ using namespace std;
 class Solution {
 public:
     bool isMatch(string s, string p) {
-        return match(s.c_str(), p.c_str());
-    }
-    bool match(const char* s, const char* p) {
-        if (p[0] == '\0') {
-            return true;
+        if (p.empty()) return s.empty();
+        if (p.size() == 1) {
+            return (s.size() == 1 && (s[0] == p[0] || p[0] == '.'));
         }
-        if (p[0] == '.') {
-            return this->match(&s[1], &p[1]);
+        if (p[1] != '*') {
+            if (s.empty()) return false;
+            return (s[0] == p[0] || p[0] == '.') && isMatch(s.substr(1), p.substr(1));
         }
-        if (p[0] == s[0] && s[0] != '\n') {
-            return this->match(&s[1], &p[1]);
+        while (!s.empty() && (s[0] == p[0] || p[0] == '.')) {
+            if (isMatch(s, p.substr(2))) return true;
+            s = s.substr(1);
         }
-        return false;
+        return isMatch(s, p.substr(2));
     }
 };
 
-void test(string str, string regular) {
+void test(string str, string regular, bool expected) {
     Solution s;
-    cout << "[" << str << "] match [" << regular << "] = [" << (s.isMatch(str, regular) ? "ture]" : "false]") << endl;
+    cout << "[" << str << "] match [" << regular << "] = [" << (s.isMatch(str, regular) ? "ture]" : "false]");
+    cout << " expected [" << (expected ? "true]" : "false]") << endl;
 }
 
 int main(int argc, char *argv[]) {
-    test("abc", "a");
-    test("abc", "d");
-    test("abc", "a.c");
-    test("abc", "ab.");
+    test("aaa","aa", false); // false
+    test("aa", "a*", true);//true
+    test("aa","a", false); //false
+    test("aa","aa", true); //true
+    test("aaa", "a*", true);//true
+    test("aab", "c*a*b", true);//true
+    test("aa", ".*", true); // true
+    test("ab", ".*", true); // true
+    test("aab", "c*a*b", true); // → true
+    test("aaa", "ab*ac*a", true);
+    /*
+    */
     return 0;
 }
