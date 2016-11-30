@@ -6,13 +6,14 @@
 #include <sstream>
 #include <vector>
 #include <limits.h> // for INT_MAX and INT_MIN
+#include "gtest/gtest.h"
 
 using namespace std;
 
 class Solution {
     public:
         int myAtoi(string str) {
-            int pos = str.find_first_not_of(' ') // very useful function;
+            int pos = str.find_first_not_of(' '); // very useful function;
             long result = 0;
             int indicator = 1;
             if ( str[pos] == '+' || str[pos] == '-' ) {
@@ -35,11 +36,11 @@ class Solution {
 };
 
 
+/*
 void test(string str) {
     Solution s;
     cout << str  <<":"<< s.myAtoi(str) << endl;
 }
-
 int main(int argc, char *argv[]) {
     test("123");
     test("+-2"); // this need to conside
@@ -57,4 +58,15 @@ int main(int argc, char *argv[]) {
     test("-2147483648");
     test("2147483648"); // this expected 2147483647
     return 0;
+}
+*/
+
+TEST( StringToInteger, test) {
+    Solution s;
+    EXPECT_EQ(s.myAtoi("100"), 100);
+    EXPECT_EQ(s.myAtoi("+-2"), 0);
+    EXPECT_EQ(s.myAtoi("-1"), -1);
+    EXPECT_EQ(s.myAtoi("-2"), -2);
+    EXPECT_EQ(s.myAtoi("9534236469"), 2147483647);
+    EXPECT_EQ(s.myAtoi("2147483648"), 2147483647); // this expected 2147483647
 }

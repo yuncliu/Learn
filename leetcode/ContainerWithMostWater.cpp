@@ -14,6 +14,7 @@ https://leetcode.com/problems/container-with-most-water/
 
 #include <iostream>
 #include <vector>
+#include "gtest/gtest.h"
 using namespace std;
 
 class Solution {
@@ -47,24 +48,10 @@ class Solution {
         }
 };
 
-void test(vector<int>& height) {
-    cout <<"[";
-    for (int i = 0; i < height.size(); ++i) {
-        cout << height[i];
-        if (i == height.size() -1) {
-            cout << "]";
-        } else {
-            cout << ", ";
-        }
-    }
+TEST(ContainerWithMostWater, test1) {
     Solution s;
-    cout << " maxArea = " << s.maxArea(height) <<endl;
-}
-
-int main(int argc, char *argv[]) {
     vector<int> a = {1,2,3};
-    test(a);
-    vector<int> b = {1,1,3,1,3};
-    test(b);
-    return 0;
+    EXPECT_EQ(s.maxArea(a), 2);
+    vector<int> b = {1, 1, 3, 1, 3};
+    EXPECT_EQ(s.maxArea(b), 6);
 }

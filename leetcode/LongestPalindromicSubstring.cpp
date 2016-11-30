@@ -26,6 +26,7 @@ https://leetcode.com/problems/longest-palindromic-substring/
 #include <iostream>
 #include <string>
 #include <sstream>
+#include "gtest/gtest.h"
 using namespace std;
 
 class Solution {
@@ -33,8 +34,8 @@ public:
     // time exipred
     string longestPalindrome_1(string s) {
         string palin;
-        for (int start = 0; start < s.length(); ++start) {
-            for (int end = start; end < s.length(); ++end) {
+        for (string::size_type start = 0; start < s.length(); ++start) {
+            for (string::size_type end = start; end < s.length(); ++end) {
                 int i = start;
                 int j = end;
                 // judge if substring between start and i is palindromic
@@ -53,7 +54,7 @@ public:
 
     string longestPalindrome(string s) {
         string max(s.substr(0, 1));
-        for (int i = 0; i < s.length() - 1; ++i) {
+        for (string::size_type i = 0; i < s.length() - 1; ++i) {
             string odd = check(s, i, i);
             max = max.length() > odd.length() ? max : odd;
             string even = check(s, i, i + 1);
@@ -62,7 +63,7 @@ public:
         return max;
     }
 
-    string check(string s, int left, int right) {
+    string check(string s, string::size_type left, string::size_type right) {
         while(s[left] == s[right] && left >= 0 && right < s.length()) {
             left--;
             right++;
@@ -72,21 +73,13 @@ public:
     }
 };
 
-void test(string s) {
-    Solution solution;
-    string result = solution.longestPalindrome(s);
-    cout << "[" << s <<"] [" << result << "]" <<endl;
-}
-
-int main(int argc, char *argv[]) {
-    test("bb");
-    test("babad");
-    test("aba");
-    test("abba");
-    test("a");
-    test("abccba");
-    test("abcdeffeda");
-    /*
-    */
-    return 0;
+TEST(LongestPalindromicSubstring, test) {
+    Solution s;
+    EXPECT_EQ(s.longestPalindrome("bb"), "bb");
+    EXPECT_EQ(s.longestPalindrome("babad"), "aba");
+    EXPECT_EQ(s.longestPalindrome("aba"), "aba");
+    EXPECT_EQ(s.longestPalindrome("abba"), "abba");
+    EXPECT_EQ(s.longestPalindrome("a"), "a");
+    EXPECT_EQ(s.longestPalindrome("abccba"), "abccba");
+    EXPECT_EQ(s.longestPalindrome("abcdeffeda"), "deffed");
 }

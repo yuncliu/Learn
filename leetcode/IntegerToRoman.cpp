@@ -8,6 +8,7 @@ https://leetcode.com/problems/integer-to-roman/
 #include <iostream>
 #include <sstream>
 #include <map>
+#include "gtest/gtest.h"
 
 using namespace std;
 class Solution {
@@ -94,15 +95,9 @@ class Solution {
         }
 };
 
-void test(int num) {
+TEST( IntegerToRoman, 1) {
     Solution s;
-    cout << "[" << num <<"]["<< s.romanToInt(s.intToRoman(num)) << "]Roman = [" << s.intToRoman(num) << "]" << endl;
-}
-
-int main(int argc, char *argv[]) {
-    for (int i = 1; i < 99; ++i) {
-        test(i);
+    for (int i = 1; i < 100; ++i) {
+        EXPECT_EQ(i, s.romanToInt((s.intToRoman(i))));
     }
-    test(3);
-    return 0;
 }

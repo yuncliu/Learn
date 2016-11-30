@@ -5,6 +5,7 @@ https://leetcode.com/problems/palindrome-number/
 
 #include <iostream>
 #include <math.h>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -31,18 +32,14 @@ public:
     }
 };
 
-void test(int x) {
+TEST(isPalindrome, test) {
     Solution s;
-    cout << "[" << x << "] : [" << s.isPalindrome(x) << "]" << endl;
-}
+    EXPECT_TRUE(s.isPalindrome(12321));
+    EXPECT_TRUE(s.isPalindrome(1221));
+    EXPECT_TRUE(s.isPalindrome(2222));
+    EXPECT_TRUE(s.isPalindrome(2));
+    EXPECT_TRUE(s.isPalindrome(111121111));
 
-int main(int argc, char *argv[]) {
-    test(12321);
-    test(1221);
-    test(1222);
-    test(2222);
-    test(2);
-    test(111121111);
-    test(111121121);
-    return 0;
+    EXPECT_FALSE(s.isPalindrome(1222));
+    EXPECT_FALSE(s.isPalindrome(111121121));
 }

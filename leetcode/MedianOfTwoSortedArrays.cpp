@@ -29,13 +29,14 @@ https://leetcode.com/problems/median-of-two-sorted-arrays/
 #include <vector>
 #include <sstream>
 #include <unistd.h>
+#include "gtest/gtest.h"
 
 using namespace std;
 
 string vector_to_str(const vector<int>& v) {
     stringstream ssm;
     ssm << "[";
-    for (int i = 0; i < v.size(); ++i) {
+    for (size_t i = 0; i < v.size(); ++i) {
         ssm << v[i];
         if (i != v.size() - 1) {
             ssm << " ,";
@@ -49,8 +50,8 @@ class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         vector<int> merged;
-        int i = 0;
-        int j = 0;
+        size_t i = 0;
+        size_t j = 0;
         while(true) {
             if (i < nums1.size() && j < nums2.size() && nums1[i] <= nums2[j]) {
                 merged.push_back(nums1[i]);
@@ -75,56 +76,31 @@ public:
     }
 };
 
-
-void test(vector<int>& nums1, vector<int>& nums2) {
+TEST(MedianOfTwoSortedArrays, test1) {
     Solution s;
-    double median = s.findMedianSortedArrays(nums1, nums2);
-    printf("%s %s [%f]\n", vector_to_str(nums1).c_str(), vector_to_str(nums2).c_str(), median);
+    vector<int> a;
+    a.push_back(1);
+    vector<int> b;
+    b.push_back(2);
+    b.push_back(3);
+    EXPECT_EQ(s.findMedianSortedArrays(a, b), 2);
 }
 
-int main(int argc, char *argv[]) {
-    /*
-    */
-    {
-        vector<int> a;
-        a.push_back(1);
-        vector<int> b;
-        b.push_back(2);
-        b.push_back(3);
-        test(a, b);
-    }
-    {
-        vector<int> a;
-        a.push_back(1);
-        a.push_back(2);
-        vector<int> b;
-        b.push_back(2);
-        b.push_back(3);
-        test(a, b);
-    }
-    {
-        vector<int> a;
-        a.push_back(1);
-        a.push_back(2);
-        a.push_back(4);
-        a.push_back(5);
-        vector<int> b;
-        b.push_back(3);
-        test(a, b);
-    }
-    {
-        vector<int> a;
-        vector<int> b;
-        b.push_back(1);
-        b.push_back(2);
-        b.push_back(3);
-        test(a, b);
-    }
-    {
-        vector<int> a;
-        a.push_back(2);
-        vector<int> b;
-        test(a, b);
-    }
-    return 0;
+TEST(MedianOfTwoSortedArrays, test2) {
+    Solution s;
+    vector<int> a;
+    a.push_back(2);
+    vector<int> b;
+    EXPECT_EQ(s.findMedianSortedArrays(a, b), 2);
+}
+
+TEST(MedianOfTwoSortedArrays, test3) {
+    Solution s;
+    vector<int> a;
+    a.push_back(1);
+    a.push_back(2);
+    vector<int> b;
+    b.push_back(2);
+    b.push_back(3);
+    EXPECT_EQ(s.findMedianSortedArrays(a, b), 2);
 }

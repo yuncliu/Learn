@@ -15,6 +15,7 @@ https://leetcode.com/problems/reverse-integer/
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -29,9 +30,9 @@ class Solution {
             }
             int reversed = 0;
             long reverse_long = 0;
-            for (int i = 0; i < v.size(); ++i) {
+            for (size_t i = 0; i < v.size(); ++i) {
                 long base = 1;
-                for (int j = 0; j < v.size() - i - 1; ++j) {
+                for (size_t j = 0; j < v.size() - i - 1; ++j) {
                     base *= 10;
                 }
                 reversed += base * v[i];
@@ -45,21 +46,10 @@ class Solution {
         }
 };
 
-
-void test(int x) {
+TEST( reverseInteger, test) {
     Solution s;
-    cout << x  <<":"<< s.reverse(x) << endl;
-}
-
-int main(int argc, char *argv[]) {
-    /*
-    test(123);
-    test(0);
-    test(10);
-    test(01);
-    test(-123);
-    test(1534236469);
-    */
-    test(1);
-    return 0;
+    EXPECT_EQ(s.reverse(123), 321);
+    EXPECT_EQ(s.reverse(0), 0);
+    EXPECT_EQ(s.reverse(10), 1);
+    EXPECT_EQ(s.reverse(-123), -321);
 }

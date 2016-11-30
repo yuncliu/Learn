@@ -16,6 +16,7 @@ https://leetcode.com/problems/zigzag-conversion/
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -28,7 +29,7 @@ class Solution {
             }
             int j = 0;
             bool flag = true;
-            for (int i = 0; i < s.length(); ++i) {
+            for (size_t i = 0; i < s.length(); ++i) {
                 lines[j] = lines[j] + s[i];
 
                 if (j == 0) {
@@ -52,14 +53,7 @@ class Solution {
         }
 };
 
-
-void test() {
+TEST( ZigZagConversion, 1) {
     Solution s;
-    //cout << "PAYPALISHIRING 3   :"<< s.convert("PAYPALISHIRING", 3) << endl;
-    cout << "AB 1   :"<< s.convert("AB", 1) << endl;
-}
-
-int main(int argc, char *argv[]) {
-    test();
-    return 0;
+    EXPECT_EQ(s.convert("AB", 1), "AB");
 }

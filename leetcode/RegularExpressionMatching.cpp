@@ -21,6 +21,7 @@ isMatch("aab", "c*a*b") → true
 https://leetcode.com/problems/regular-expression-matching/
 */
 #include <iostream>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -43,24 +44,15 @@ public:
     }
 };
 
-void test(string str, string regular, bool expected) {
+TEST(RegularExpressionMatching, test) {
     Solution s;
-    cout << "[" << str << "] match [" << regular << "] = [" << (s.isMatch(str, regular) ? "ture]" : "false]");
-    cout << " expected [" << (expected ? "true]" : "false]") << endl;
-}
-
-int main(int argc, char *argv[]) {
-    test("aaa","aa", false); // false
-    test("aa", "a*", true);//true
-    test("aa","a", false); //false
-    test("aa","aa", true); //true
-    test("aaa", "a*", true);//true
-    test("aab", "c*a*b", true);//true
-    test("aa", ".*", true); // true
-    test("ab", ".*", true); // true
-    test("aab", "c*a*b", true); // → true
-    test("aaa", "ab*ac*a", true);
-    /*
-    */
-    return 0;
+    EXPECT_FALSE(s.isMatch("aaa","aa"));
+    EXPECT_FALSE(s.isMatch("aaa","aa")); // false
+    EXPECT_FALSE(s.isMatch("aa", "a"));
+    EXPECT_TRUE(s.isMatch("aa", "aa"));
+    EXPECT_TRUE(s.isMatch("aa", "a*"));
+    EXPECT_TRUE(s.isMatch("aaa", "a*"));
+    EXPECT_TRUE(s.isMatch("aab", "c*a*b"));
+    EXPECT_TRUE(s.isMatch("aa", ".*"));
+    EXPECT_TRUE(s.isMatch("ab", ".*"));
 }
