@@ -123,12 +123,9 @@ TEST(threeSum, test) {
     EXPECT_EQ(result.size(), (size_t)2);
     for (size_t i = 0; i < result.size(); ++i) {
         int sum = 0;
-        cout << "[ ";
         for_each(result[i].begin(), result[i].end(), [&](int n){
-            cout << n << ", ";
             sum += n;
         });
-        cout << "]" << endl;;
         EXPECT_EQ(sum, 0);
     }
 }
@@ -140,12 +137,9 @@ TEST(threeSum, test1) {
     vector<vector<int> > result = s.threeSum(num);
     for (size_t i = 0; i < result.size(); ++i) {
         int sum = 0;
-        cout << "[ ";
         for_each(result[i].begin(), result[i].end(), [&](int n){
-            cout << n << ", ";
             sum += n;
         });
-        cout << "]" << endl;;
         EXPECT_EQ(sum, 0);
     }
 }
@@ -156,15 +150,11 @@ TEST(threeSum, all_zero) {
     vector<int> num = {0, 0, 0};
     vector<vector<int> > result = s.threeSum(num);
     EXPECT_EQ(result.size(), (size_t)1);
-    cout << "all zero" <<endl;
     for (size_t i = 0; i < result.size(); ++i) {
         int sum = 0;
-        cout << "[ ";
         for_each(result[i].begin(), result[i].end(), [&](int n){
-            cout << n << ", ";
             sum += n;
         });
-        cout << "]" << endl;;
         EXPECT_EQ(sum, 0);
     }
 }
@@ -176,15 +166,11 @@ TEST(threeSum, time_limit) {
     vector<int> num = {5,-9,-11,9,9,-4,14,10,-11,1,-13,11,10,14,-3,-3,-4,6,-15,6,6,-13,7,-11,-15,10,-8,13,-14,-12,12,6,-6,8,0,10,-11,-8,-2,-6,8,0,12,3,-9,-6,8,3,-15,0,-6,-1,3,9,-5,-5,4,2,-15,-3,5,13,-11,7,6,-4,2,11,-5,7,12,-11,-15,1,-1,-9,10,-8,1,2,8,11,-14,-4,-3,-12,-2,8,5,-1,-9,-4,-3,-13,-12,-12,-10,-3,6,1,12,3,-3,12,11,11,10};
     vector<vector<int> > result = s.threeSum(num);
     EXPECT_EQ(result.size(), (size_t)108);
-    cout << "size is " << result.size() <<endl;
     for (size_t i = 0; i < result.size(); ++i) {
         int sum = 0;
-        cout << "[ ";
         for_each(result[i].begin(), result[i].end(), [&](int n){
-            cout << n << ", ";
             sum += n;
         });
-        cout << "]" << endl;;
         EXPECT_EQ(sum, 0);
     }
 }

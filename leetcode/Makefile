@@ -16,6 +16,8 @@ SRCS	= IntegerToRoman.cpp \
 		LongestSubstringWithoutRepeatingCharacters.cpp \
 		LongestCommonPrefix.cpp \
 		3Sum.cpp \
+		3SumClosest.cpp \
+		4Sum.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
