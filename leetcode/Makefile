@@ -20,6 +20,7 @@ SRCS	= IntegerToRoman.cpp \
 		4Sum.cpp \
 		LetterCombinationsOfPhoneNumber.cpp \
 		RemoveNthNodeFromEndOfList.cpp \
+		ValidParentheses.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
