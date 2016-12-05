@@ -18,6 +18,7 @@ SRCS	= IntegerToRoman.cpp \
 		3Sum.cpp \
 		3SumClosest.cpp \
 		4Sum.cpp \
+		LetterCombinationsOfPhoneNumber.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
