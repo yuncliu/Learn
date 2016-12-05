@@ -5,6 +5,7 @@ LINKS	=  -lgtest -lpthread -lstdc++
 
 
 SRCS	= IntegerToRoman.cpp \
+		ListNode.cpp \
 		StringToInteger.cpp \
 		ZigZagConversion.cpp \
 		RegularExpressionMatching.cpp \
@@ -21,6 +22,7 @@ SRCS	= IntegerToRoman.cpp \
 		LetterCombinationsOfPhoneNumber.cpp \
 		RemoveNthNodeFromEndOfList.cpp \
 		ValidParentheses.cpp \
+		MergeTwoSortedList.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
