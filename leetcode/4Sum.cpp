@@ -29,37 +29,42 @@ public:
             return result;
         }
         sort(nums.begin(), nums.end());
-        // i, j, k, l
-        for(size_t i = 0, l = nums.size() - 1; i < l - 2;) {
-            /*
-            if (i + 1 < l - 2 && nums[i] == nums[i + 1]) {
-                i++;
-                continue;
-            }
-            if (l - 3 > i && nums[ l-1 ] == nums[l]) {
-                l--;
-                continue;
-            }
-            */
+        /* i, j, k, l
+         *      |0 1 2 3 4 5 6 7 8 9
+         * init |i j k l
+         *    1 |i j   k l
+         *    2 |i j     k l
+         *    3 |i j->   <-k l
+         *    4 |i j->    <-k l
+         *
+         */
+        for(size_t i = 0; i < nums.size() - 3; ++i) {
 
-            for(size_t j = i + 1, k = l - 1; j < k;) {
-                int sum = nums[i] + nums[j] + nums[k] + nums[l];
-                if (sum > target || (k - 1 > j && nums[k] == nums[k - 1])) {
-                    k--;
-                } else if (sum < target || (j + 1 < k && nums[j] == nums[j + 1])) {
-                    j++;
-                } else {
-                    result.push_back({nums[i],nums[j],nums[k],nums[l]});
-                    j++;
-                    k--;
-                }
+            /*
+             * if nums[i-1] == nums[i], the number of nums[i-1] is already used once,
+             * no need to test another time.
+             */
+            if (i > 0 && nums[i-1] == nums[i]) {
+                continue;
             }
-            int sum = nums[i] +nums[i+1] + nums[l-1] + nums[l];
-            /* here shoud handle when sum == target , test8 failed*/
-            if (sum > target) {
-                l--;
-            } else {
-                i++;
+
+            // this part is similar to 3sum
+            for (size_t l = 3; l < nums.size(); l++) {
+                if (l + 1 < nums.size() && nums[l] == nums[l + 1]) { // skip duplicates
+                    continue;
+                }
+                for (size_t j = i + 1, k = l - 1;  j < k;) {
+                    int sum = nums[i] + nums[j] + nums[k] + nums[l];
+                    if (sum < target || (j > i + 1 && nums[j - 1] == nums[j])) { // check sum skip duplicates
+                        j++;
+                    }
+                    else if (sum > target || (k + 1 < l && nums[k + 1] == nums[k])) { // check sum skip duplicates
+                        k--;
+                    }
+                    else {
+                        result.push_back({nums[i], nums[j++], nums[k--], nums[l]});// pust into result
+                    }
+                }
             }
         }
         return result;
@@ -202,6 +207,27 @@ TEST(fourSum, test8) {
         EXPECT_EQ(sum, 0);
     }
 }
+
+TEST(fourSum, test16) {
+    Solution s;
+    vector<int> num = {-1,-5,-5,-3,2,5,0,4};
+    int target = -7;
+    vector<vector<int> > result = s.fourSum(num, target);
+    EXPECT_EQ(result.size(), (size_t)2);
+    for (size_t i = 0; i < result.size(); ++i) {
+        int sum = 0;
+        cout << "[ ";
+        for_each(result[i].begin(), result[i].end(), [&](int n){
+            sum += n;
+            cout << n << ", ";
+        });
+        cout << "]" <<endl;
+        EXPECT_EQ(sum, target);
+    }
+}
+#endif
+
+#if 1
 #endif
 
 #if 1
