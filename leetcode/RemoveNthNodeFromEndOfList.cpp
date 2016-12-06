@@ -23,13 +23,16 @@
  */
 #include <iostream>
 #include "gtest/gtest.h"
+#include "ListNode.h"
 using namespace std;
 
+/*
 struct ListNode {
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
 };
+*/
 
 class Solution {
     public:
@@ -62,94 +65,56 @@ class Solution {
                 return head;
             }
         }
-
-        size_t length(ListNode* head) {
-            size_t length = 0;
-            while(head != NULL) {
-                head = head->next;
-                length ++;
-            }
-            return length;
-        }
-
-        ListNode* list_push_back(ListNode* head, int val) {
-            if (!head) {
-                head = new ListNode(val);
-                return head;
-            } else {
-                ListNode* p = head;
-                while(p->next!= NULL) {
-                    p = p->next;
-                }
-                p->next = new ListNode(val);
-                return head;
-            }
-        }
-        void print_list(ListNode* head) {
-            cout << "[ ";
-            while(head) {
-                cout << head->val << " -> ";
-                head = head->next;
-            }
-            cout << "]" << endl;
-        }
-        void destroy_list(ListNode* head) {
-            while(head != NULL) {
-                ListNode* p = head;
-                head = head->next;
-                delete p;
-            }
-        }
 };
 
 TEST(RemoveNthNodeFromEndOfList, test1) {
     Solution s;
-    ListNode* h = s.list_push_back(NULL, 1);
-    h = s.list_push_back(h, 2);
-    h = s.list_push_back(h, 3);
-    h = s.list_push_back(h, 4);
-    h = s.list_push_back(h, 5);
-    s.print_list(h);
+    ListNode* h = ListNode::create(1);
+    h->push_back(2);
+    h->push_back(3);
+    h->push_back(4);
+    h->push_back(5);
+    h->print();
     h = s.removeNthFromEnd(h, 1);
-    s.print_list(h);
-    s.destroy_list(h);
+    h->print();
+    ListNode::destroy(h);
 }
 
 TEST(RemoveNthNodeFromEndOfList, test2) {
     Solution s;
-    ListNode* h = s.list_push_back(NULL, 1);
-    h = s.list_push_back(h, 2);
-    h = s.list_push_back(h, 3);
-    h = s.list_push_back(h, 4);
-    h = s.list_push_back(h, 5);
-    s.print_list(h);
+    ListNode* h = ListNode::create(1);
+    h->push_back(2);
+    h->push_back(3);
+    h->push_back(4);
+    h->push_back(5);
+    h->print();
     h = s.removeNthFromEnd(h, 2);
-    s.print_list(h);
-    s.destroy_list(h);
+    h->print();
+    ListNode::destroy(h);
 }
 
 TEST(RemoveNthNodeFromEndOfList, test3) {
     Solution s;
-    ListNode* h = s.list_push_back(NULL, 1);
-    h = s.list_push_back(h, 2);
-    h = s.list_push_back(h, 3);
-    h = s.list_push_back(h, 4);
-    h = s.list_push_back(h, 5);
-    s.print_list(h);
+    ListNode* h = ListNode::create(1);
+    h->push_back(2);
+    h->push_back(3);
+    h->push_back(4);
+    h->push_back(5);
+    h->print();
     h = s.removeNthFromEnd(h, 3);
-    s.print_list(h);
-    s.destroy_list(h);
+    h->print();
+    ListNode::destroy(h);
 }
 
 TEST(RemoveNthNodeFromEndOfList, test5) {
     Solution s;
-    ListNode* h = s.list_push_back(NULL, 1);
-    h = s.list_push_back(h, 2);
-    h = s.list_push_back(h, 3);
-    h = s.list_push_back(h, 4);
-    h = s.list_push_back(h, 5);
-    s.print_list(h);
+    ListNode* h = ListNode::create(1);
+    h->push_back(2);
+    h->push_back(3);
+    h->push_back(4);
+    h->push_back(5);
+    h->print();
     h = s.removeNthFromEnd(h, 5);
-    s.print_list(h);
-    s.destroy_list(h);
+    h->print();
+    ListNode::destroy(h);
 }

@@ -12,8 +12,6 @@ Example2: x = -123, return -321
 https://leetcode.com/problems/reverse-integer/
 */
 
-#include <iostream>
-#include <sstream>
 #include <vector>
 #include "gtest/gtest.h"
 

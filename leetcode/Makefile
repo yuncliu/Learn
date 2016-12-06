@@ -23,6 +23,7 @@ SRCS	= IntegerToRoman.cpp \
 		RemoveNthNodeFromEndOfList.cpp \
 		ValidParentheses.cpp \
 		MergeTwoSortedList.cpp \
+		generateParentheses.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
