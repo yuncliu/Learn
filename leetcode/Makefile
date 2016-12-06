@@ -24,6 +24,7 @@ SRCS	= IntegerToRoman.cpp \
 		ValidParentheses.cpp \
 		MergeTwoSortedList.cpp \
 		generateParentheses.cpp \
+		MergeKSortedList.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
