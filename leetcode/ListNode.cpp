@@ -28,14 +28,18 @@ void ListNode::push_back(int x) {
     }
     p->next = new ListNode(x);
 }
+
 void ListNode::print() {
     cout << "[ ";
     ListNode* p = this;
     while(p) {
-        cout << p->val << " -> ";
+        cout << p->val;
+        if (p->next) {
+            cout  << " -> ";
+        }
         p = p->next;
     }
-    cout << "]" << endl;
+    cout << " ]" << endl;
 }
 
 list<int> ListNode::get_list() {
@@ -46,6 +50,27 @@ list<int> ListNode::get_list() {
         p = p->next;
     }
     return l;
+}
+
+/*
+ * @brief get the value of the element at the index position
+ * @param[in]   index the positon of the element
+ * @retval      the val of the element
+ */
+int ListNode::at(size_t index) {
+    ListNode* p = this;
+    size_t len = 0;
+    while(p) {
+        if (len == index) {
+            break;
+        }
+        p = p->next;
+        len++;
+    }
+    /* if p is NULL, the index is exceed the maximum length
+     * of the list
+     */
+    return p ? p->val : 0;
 }
 
 ListNode* ListNode::create(int x) {

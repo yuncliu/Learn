@@ -25,6 +25,8 @@ SRCS	= IntegerToRoman.cpp \
 		MergeTwoSortedList.cpp \
 		generateParentheses.cpp \
 		MergeKSortedList.cpp \
+		SwapNodesInPairs.cpp \
+		ReverseNodesInKGroup.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)

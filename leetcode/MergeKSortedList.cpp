@@ -19,7 +19,7 @@ using namespace std;
  */
 class Solution {
 public:
-    Solution():count(0) {
+    Solution():count(0), while_loop(0) {
     }
     /*
      * divide and conquer is far more fast
@@ -49,6 +49,7 @@ public:
         ListNode* head = NULL;
         ListNode** x = &head;
         while(l1 && l2) {
+            while_loop++;
             if (l1->val < l2->val) {
                 //head = l1;
                 *x = l1;
@@ -98,6 +99,7 @@ public:
         return mergeTwoListsRecursive(l1, l2);
     }
     int count;
+    int while_loop;
 };
 
 TEST(MergeKSortedList, test1) {
@@ -140,6 +142,7 @@ TEST(MergeKSortedList, test3) {
     }
     ListNode* head = s.mergeKLists(lists);
     cout << "called MergeTwoSortedList2 " << s.count << "times" <<endl;
+    cout << "called MergeTwoSortedList2  while loops :" << s.while_loop << "times" << endl;
     list<int> l = head->get_list();
     EXPECT_TRUE(is_sorted(l.begin(), l.end()));
     ListNode::destroy(head);
@@ -155,6 +158,11 @@ TEST(MergeKSortedList, test3slow) {
     }
     ListNode* head = s.mergeKListsSlow(lists);
     cout << "called MergeTwoSortedList2 " << s.count << "times" <<endl;
+    /*
+     * The while loop in the MergeTwoSortedList2 loops far more times than divide and conquer.
+     * That's why the divide and conquer is far more fast
+     */
+    cout << "called MergeTwoSortedList2  while loops :" << s.while_loop << "times" << endl;
     list<int> l = head->get_list();
     EXPECT_TRUE(is_sorted(l.begin(), l.end()));
     ListNode::destroy(head);

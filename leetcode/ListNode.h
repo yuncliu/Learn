@@ -12,6 +12,7 @@ public:
     void push_back(int x);
     void print();
     list<int> get_list();
+    int at(size_t index);
     static ListNode* create(int x);
     static void destroy(ListNode* head);
     template<class T>
