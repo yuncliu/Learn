@@ -1,7 +1,7 @@
 CPP=${CXX}
 CC=${CC}
 CFLAGS=-std=c++11 -Wall -g  -DDEBUG
-LINKS	=  -lgtest -lpthread -lstdc++
+LINKS	=  -lgtest -lpthread -lstdc++ -lm
 
 
 SRCS	= IntegerToRoman.cpp \

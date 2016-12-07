@@ -64,7 +64,7 @@ public:
     }
 
     string check(string s, string::size_type left, string::size_type right) {
-        while(s[left] == s[right] && left >= 0 && right < s.length()) {
+        while(s[left] == s[right] && right < s.length()) {
             left--;
             right++;
         }
