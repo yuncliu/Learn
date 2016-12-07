@@ -32,12 +32,18 @@ void ListNode::push_back(int x) {
 void ListNode::print() {
     cout << "[ ";
     ListNode* p = this;
+    int num = 0;
     while(p) {
         cout << p->val;
         if (p->next) {
             cout  << " -> ";
         }
         p = p->next;
+        if (num > 1000) {
+           cout << "...";
+           break;
+        }
+        num++;
     }
     cout << " ]" << endl;
 }
