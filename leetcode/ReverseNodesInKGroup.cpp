@@ -145,6 +145,7 @@ TEST(ReverseNodesInKGroup, k_is_1) {
     EXPECT_EQ(h->at(2), 3);
     EXPECT_EQ(h->at(3), 4);
     EXPECT_EQ(h->at(4), 5);
+    ListNode::destroy(h);
 }
 TEST(ReverseNodesInKGroup, k_is_2) {
     Solution s;
@@ -157,6 +158,7 @@ TEST(ReverseNodesInKGroup, k_is_2) {
     EXPECT_EQ(h->at(2), 4);
     EXPECT_EQ(h->at(3), 3);
     EXPECT_EQ(h->at(4), 5);
+    ListNode::destroy(h);
 }
 
 TEST(ReverseNodesInKGroup, k_is_3) {
@@ -170,6 +172,7 @@ TEST(ReverseNodesInKGroup, k_is_3) {
     EXPECT_EQ(h->at(2), 1);
     EXPECT_EQ(h->at(3), 4);
     EXPECT_EQ(h->at(4), 5);
+    ListNode::destroy(h);
 }
 
 TEST(ReverseNodesInKGroup, only2) {
@@ -180,4 +183,5 @@ TEST(ReverseNodesInKGroup, only2) {
     h->print();
     EXPECT_EQ(h->at(0), 2);
     EXPECT_EQ(h->at(1), 1);
+    ListNode::destroy(h);
 }

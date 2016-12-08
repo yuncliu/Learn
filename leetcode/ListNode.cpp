@@ -97,4 +97,5 @@ TEST(ListNode, CreateFromContainer) {
     head->print();
     list<int> l = head->get_list();
     EXPECT_TRUE(is_sorted(l.begin(), l.end()));
+    ListNode::destroy(head);
 }
