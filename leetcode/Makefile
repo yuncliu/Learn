@@ -27,6 +27,7 @@ SRCS	= IntegerToRoman.cpp \
 		MergeKSortedList.cpp \
 		SwapNodesInPairs.cpp \
 		ReverseNodesInKGroup.cpp \
+		RemoveDuplicatesFromSortedArray.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
