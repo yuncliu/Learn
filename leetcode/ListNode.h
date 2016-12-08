@@ -27,6 +27,15 @@ public:
         }
         return head;
     }
+
+    template<class T>
+    static void printContainer(T container) {
+        cout <<"[ ";
+        for (auto it : container) {
+            cout << it << ", ";
+        }
+        cout <<"]" <<endl;
+    }
 };
 
 #endif // _LISTNODE_H_

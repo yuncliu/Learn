@@ -28,6 +28,8 @@ SRCS	= IntegerToRoman.cpp \
 		SwapNodesInPairs.cpp \
 		ReverseNodesInKGroup.cpp \
 		RemoveDuplicatesFromSortedArray.cpp \
+		RemoveElement.cpp \
+		ImplementstrStr.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
