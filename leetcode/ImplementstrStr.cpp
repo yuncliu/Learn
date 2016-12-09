@@ -13,45 +13,42 @@ class Solution {
     public:
         /*
          * try kmp
+         * beats 12% submissions. - -
          */
         int strStr(string haystack, string needle) {
-            if (haystack.size() < needle.size()) {
-                return -1;
-            }
-            if (needle.size() == 0) {
+            if (needle.empty()) {
                 return 0;
             }
-            vector<int> next = build_next(needle);
-
-            string::size_type pos = 0;
-            for (string::size_type i = 0; i < haystack.size() - needle.size() + 1; ++i) {
-                while(haystack[i + pos] == needle[pos] && pos < needle.size()) {
-                    pos++;
+            vector<int> next = buildNextTable(needle);
+            for (string::size_type i = 0, j = 0; i < haystack.length(); ) {
+                if (haystack[i] == needle[j]) {
+                    i++;
+                    j++;
                 }
-                if (pos == needle.size()) {
-                    return i;
-                } else {
-                    pos = next[pos-1] + 1;
+                if (j == needle.length()) {
+                    return i - j;
+                }
+                if (i < haystack.length() && haystack[i] != needle[j]) {
+                    if (j){
+                        j = next[j - 1];
+                    } else {
+                        i++;
+                    }
                 }
             }
-            return -1;//haystack.find(needle);
+            return -1;
         }
-        /*
-         *
-         */
-        vector<int> build_next(string str) {
-            vector<int> next(str.size());
-            int i, j;
-            next[0] = -1;
-            for( i = 1; i < (int)str.size(); i++ ) {
-                j = next[ i - 1 ];
-                while( str[ j + 1 ] != str[ i ] && ( j >= 0 ) ) {
-                    j = next[ j ];
+
+        vector<int> buildNextTable(string& needle) {
+            vector<int> next(needle.length(), 0);
+            for (string::size_type i = 1, len = 0; i < needle.length(); ) {
+                if (needle[i] == needle[len])
+                    next[i++] = ++len;
+                else if (len) {
+                    len = next[len - 1];
                 }
-                if( str[ i ] == str[ j + 1 ] ) {
-                    next[ i ] = j + 1;
-                } else {
-                    next[ i ] = -1;
+                else {
+                    next[i++] = 0;
                 }
             }
             return next;
@@ -120,12 +117,11 @@ TEST(ImplementstrStr, test5) {
 TEST(ImplementstrStr, test6) {
     Solution s;
     string ss = "abcabcacab";
-    vector<int> next = s.build_next(ss);
+    vector<int> next = s.buildNextTable(ss);
     for (auto it : next) {
         cout << it <<" , ";
     }
     cout << endl;
-    //ListNode::printContainer(next);
 }
 
 TEST(ImplementstrStr, test7) {
