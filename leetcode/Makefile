@@ -30,6 +30,7 @@ SRCS	= IntegerToRoman.cpp \
 		RemoveDuplicatesFromSortedArray.cpp \
 		RemoveElement.cpp \
 		ImplementstrStr.cpp \
+		DivideTwoIntegers.cpp \
 		main.cpp
 
 OBJS := $(SRCS:%.cpp=%.o)
